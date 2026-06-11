@@ -3,342 +3,420 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Invitacion - Ameth Mendez Toledo</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Invitacion — Ameth Mendez Toledo</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --primary: #76ACD3;
-    --primary-dark: #4A88B5;
-    --primary-light: #AAD4F0;
-    --bg: #76ACD3;
-    --dark: #1A3A52;
-    --white: #ffffff;
-    --cream: rgba(255,255,255,.92);
-    --subtle: rgba(255,255,255,.55);
-  }
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg);
-    color: var(--white);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  #confetti-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 999;
-  }
-  .hero {
-    position: relative;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem 3.5rem;
-    text-align: center;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:        #0d1117;
+  --bg2:       #161b22;
+  --bg3:       #21262d;
+  --border:    rgba(48,54,61,1);
+  --blue:      #58a6ff;
+  --blue-dim:  rgba(88,166,255,.15);
+  --green:     #3fb950;
+  --green-dim: rgba(63,185,80,.12);
+  --purple:    #bc8cff;
+  --orange:    #ffa657;
+  --white:     #e6edf3;
+  --muted:     #8b949e;
+  --muted2:    #484f58;
+  --mono:      'JetBrains Mono', monospace;
+  --sans:      'Inter', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* Camera SVG icon */
-  .camera-wrap {
-    position: relative; z-index: 2;
-    margin-bottom: 1.6rem;
-    animation: pop-in .8s cubic-bezier(.34,1.56,.64,1) both .2s;
-  }
-  .camera-svg {
-    width: 80px; height: 80px;
-    animation: pulse-glow 2.8s ease-in-out infinite;
-  }
-  @keyframes pulse-glow {
-    0%,100% { filter: drop-shadow(0 0 10px rgba(255,255,255,.4)); }
-    50%      { filter: drop-shadow(0 0 26px rgba(255,255,255,.85)); }
-  }
+/* — GRID LINES — */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(88,166,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88,166,255,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .45rem;
-    background: rgba(255,255,255,.2);
-    border: 1px solid rgba(255,255,255,.35);
-    color: var(--white);
-    font-size: .68rem;
-    font-weight: 600;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    padding: .38rem 1rem;
-    border-radius: 99px;
-    margin-bottom: 1.1rem;
-    animation: pop-in .7s cubic-bezier(.34,1.56,.64,1) both .4s;
-  }
+/* — GLOW ORB — */
+.glow-orb {
+  position: fixed;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(88,166,255,.07) 0%, transparent 70%);
+  top: -100px; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .subtitle {
-    font-size: clamp(.8rem, 3vw, .95rem);
-    font-weight: 300;
-    color: rgba(255,255,255,.7);
-    letter-spacing: .08em;
-    margin-bottom: .5rem;
-    animation: slide-up .6s ease both .5s;
-  }
+#confetti-canvas {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
 
-  .title {
-    font-size: clamp(2rem, 8vw, 3rem);
-    font-weight: 800;
-    line-height: 1.05;
-    color: var(--white);
-    margin-bottom: .6rem;
-    animation: slide-up .7s ease both .55s;
-  }
+/* ——— HERO ——— */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
+  gap: 0;
+}
 
-  .name {
-    font-size: clamp(1.1rem, 4.5vw, 1.5rem);
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 1.8rem;
-    animation: slide-up .7s ease both .65s;
-  }
-  .name span {
-    display: block;
-    font-weight: 300;
-    font-size: clamp(.85rem, 3vw, 1rem);
-    opacity: .75;
-    margin-top: .15rem;
-  }
+/* — TERMINAL BADGE — */
+.terminal-badge {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 400;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(63,185,80,.3);
+  border-radius: 6px;
+  padding: .35rem .9rem;
+  margin-bottom: 2rem;
+  letter-spacing: .04em;
+  animation: fadein .5s ease both .1s;
+}
+.terminal-badge::before { content: '> '; opacity: .6; }
 
-  /* SVG Divider */
-  .divider-wrap {
-    width: 100%; max-width: 340px;
-    margin: 0 auto 1.8rem;
-    animation: fade-in .6s ease both .8s;
-  }
+/* — EYEBROW — */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+  animation: fadein .5s ease both .2s;
+}
 
-  .cards {
-    display: flex;
-    flex-direction: column;
-    gap: .8rem;
-    width: 100%;
-    max-width: 390px;
-    margin-bottom: 2rem;
-    animation: slide-up .7s ease both .85s;
-  }
-  .card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: rgba(255,255,255,.18);
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 16px;
-    padding: 1rem 1.2rem;
-    backdrop-filter: blur(4px);
-    transition: transform .18s;
-  }
-  .card:active { transform: scale(.97); }
-  .card-icon {
-    flex-shrink: 0;
-    width: 44px; height: 44px;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(255,255,255,.2);
-    border-radius: 12px;
-  }
-  .card-text { text-align: left; }
-  .card-label {
-    font-size: .6rem;
-    font-weight: 700;
-    color: rgba(255,255,255,.65);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    margin-bottom: .1rem;
-  }
-  .card-value {
-    font-size: .9rem;
-    font-weight: 500;
-    color: var(--white);
-    line-height: 1.35;
-  }
+/* — MAIN TITLE — */
+.main-title {
+  font-family: var(--sans);
+  font-size: clamp(2.4rem, 9vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.0;
+  color: var(--white);
+  margin-bottom: .9rem;
+  letter-spacing: -.03em;
+  animation: slideup .6s ease both .25s;
+}
+.main-title .accent {
+  color: var(--blue);
+  display: block;
+}
 
-  .countdown-section {
-    width: 100%;
-    max-width: 390px;
-    margin-bottom: .5rem;
-    animation: slide-up .7s ease both 1s;
-  }
-  .countdown-label {
-    font-size: .65rem;
-    font-weight: 600;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.6);
-    margin-bottom: .85rem;
-  }
-  .countdown-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: .5rem;
-  }
-  .cd-box {
-    background: rgba(255,255,255,.2);
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 14px;
-    padding: .9rem .3rem .7rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .18rem;
-  }
-  .cd-num {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-    font-weight: 800;
-    color: var(--white);
-    line-height: 1;
-  }
-  .cd-num.bump { animation: bump .22s ease; }
-  @keyframes bump { 0% { transform: scale(1.3); } 100% { transform: scale(1); } }
-  .cd-unit {
-    font-size: .55rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: rgba(255,255,255,.55);
-  }
+/* — NAME BLOCK — */
+.name-block {
+  margin-bottom: 2.5rem;
+  animation: slideup .6s ease both .35s;
+}
+.name-prefix {
+  font-family: var(--mono);
+  font-size: .7rem;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.name-typing {
+  font-family: var(--mono);
+  font-size: clamp(1rem, 4vw, 1.35rem);
+  font-weight: 500;
+  color: var(--orange);
+  min-height: 1.6em;
+  display: inline-block;
+}
+.cursor {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--orange);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.name-sub {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--muted);
+  margin-top: .3rem;
+}
+.name-sub .tag { color: var(--blue); }
+.name-sub .string { color: var(--green); }
 
-  .note {
-    margin-top: 2rem;
-    font-size: .73rem;
-    font-weight: 300;
-    color: rgba(255,255,255,.55);
-    max-width: 300px;
-    line-height: 1.7;
-    animation: fade-in .6s ease both 1.2s;
-  }
+/* — DIVIDER — */
+.code-divider {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--muted2);
+  margin-bottom: 2rem;
+  animation: fadein .5s ease both .4s;
+  letter-spacing: .04em;
+}
 
-  footer {
-    background: rgba(0,0,0,.12);
-    border-top: 1px solid rgba(255,255,255,.15);
-    text-align: center;
-    padding: 1.4rem 1rem;
-    font-size: .65rem;
-    font-weight: 400;
-    color: rgba(255,255,255,.4);
-    letter-spacing: .07em;
-  }
+/* — CARDS GRID — */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .75rem;
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 2.5rem;
+  animation: slideup .6s ease both .45s;
+}
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .9rem 1rem;
+  text-align: left;
+  transition: border-color .2s, transform .15s;
+}
+.card:hover { border-color: var(--blue); transform: translateY(-2px); }
+.card-line-num {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--muted2);
+  min-width: 18px;
+  padding-top: .15rem;
+  user-select: none;
+}
+.card-icon {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  background: var(--blue-dim);
+  border: 1px solid rgba(88,166,255,.2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-body { flex: 1; }
+.card-key {
+  font-family: var(--mono);
+  font-size: .6rem;
+  color: var(--purple);
+  margin-bottom: .18rem;
+}
+.card-key::after { content: ':'; color: var(--muted); }
+.card-val {
+  font-family: var(--sans);
+  font-size: .88rem;
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.4;
+}
+.card-val .string { color: var(--green); font-family: var(--mono); font-size: .82rem; }
 
-  @keyframes pop-in {
-    from { opacity: 0; transform: scale(.6); }
-    to   { opacity: 1; transform: scale(1); }
-  }
-  @keyframes slide-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; }
-  }
+/* — COUNTDOWN — */
+.countdown-section {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: .5rem;
+  animation: slideup .6s ease both .55s;
+}
+.countdown-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+.countdown-header .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .4; } }
+.countdown-header span {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: var(--muted);
+  letter-spacing: .1em;
+}
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .6rem;
+}
+.cd-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem .3rem .75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+  transition: border-color .2s;
+}
+.cd-box:hover { border-color: var(--blue); }
+.cd-num {
+  font-family: var(--mono);
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.cd-num.bump { animation: bump .2s ease; }
+@keyframes bump { 0% { transform: scale(1.25); color: var(--orange); } 100% { transform: scale(1); } }
+.cd-unit {
+  font-family: var(--mono);
+  font-size: .52rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+/* — NOTE — */
+.note {
+  margin-top: 2rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  color: var(--muted);
+  max-width: 340px;
+  line-height: 1.8;
+  animation: fadein .5s ease both .7s;
+  text-align: center;
+}
+.note .comment { color: var(--muted2); }
+.note .str { color: var(--green); }
+
+/* — FOOTER — */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.2rem 1.5rem;
+  flex-wrap: wrap;
+}
+.footer-item {
+  font-family: var(--mono);
+  font-size: .6rem;
+  color: var(--muted2);
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.footer-dot { color: var(--blue); }
+.footer-badge {
+  background: var(--green-dim);
+  border: 1px solid rgba(63,185,80,.25);
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: .55rem;
+  padding: .15rem .5rem;
+  border-radius: 4px;
+}
+
+/* — ANIMATIONS — */
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideup {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; }
+}
 </style>
 </head>
 <body>
 
+<div class="glow-orb"></div>
 <canvas id="confetti-canvas"></canvas>
 
 <section class="hero">
 
-  <!-- Camera SVG -->
-  <div class="camera-wrap">
-    <svg class="camera-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="7" y="21" width="66" height="46" rx="11" fill="rgba(255,255,255,.15)" stroke="#ffffff" stroke-width="2.2"/>
-      <path d="M27 21V17a5 5 0 015-5h16a5 5 0 015 5v4" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
-      <circle cx="40" cy="44" r="13" fill="rgba(255,255,255,.12)" stroke="#ffffff" stroke-width="2.2"/>
-      <circle cx="40" cy="44" r="8" fill="rgba(255,255,255,.15)"/>
-      <circle cx="40" cy="44" r="4" fill="#ffffff" opacity=".9"/>
-      <circle cx="34" cy="39" r="1.5" fill="#fff" opacity=".4"/>
-      <rect x="60" y="27" width="7" height="5" rx="1.5" fill="#ffffff" opacity=".5"/>
-      <circle cx="18" cy="30" r="3" fill="#ffffff" opacity=".4"/>
-    </svg>
+  <div class="terminal-badge">graduation_session.init()</div>
+
+  <p class="eyebrow">// Toma de Fotos Oficial</p>
+
+  <h1 class="main-title">
+    Sesion de
+    <span class="accent">Graduacion</span>
+  </h1>
+
+  <div class="name-block">
+    <p class="name-prefix">const graduado = </p>
+    <div style="display:inline-flex; align-items:center; background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:.5rem 1rem; gap:0;">
+      <span class="name-typing" id="typed-name"></span><span class="cursor"></span>
+    </div>
+    <p class="name-sub" style="margin-top:.6rem;">
+      <span class="tag">&lt;degree&gt;</span>
+      <span class="string">Ingenieria en Software</span>
+      <span class="tag">&lt;/degree&gt;</span>
+    </p>
   </div>
 
-  <!-- Badge -->
-  <div class="badge">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 10-16 0"/>
-    </svg>
-    Toma de Fotos Oficial
-  </div>
+  <p class="code-divider">/* — detalles del evento — */</p>
 
-  <p class="subtitle">Te invito a celebrar conmigo</p>
-
-  <h1 class="title">Sesion de<br>Graduacion</h1>
-
-  <p class="name">
-    Ameth de Jesus Mendez Toledo
-    <span>Ingenieria en Software</span>
-  </p>
-
-  <!-- SVG Divider -->
-  <div class="divider-wrap">
-    <svg viewBox="0 0 340 20" xmlns="http://www.w3.org/2000/svg" width="100%" height="20">
-      <defs>
-        <linearGradient id="dg" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
-          <stop offset="50%"  stop-color="#ffffff" stop-opacity=".7"/>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <line x1="0" y1="10" x2="148" y2="10" stroke="url(#dg)" stroke-width="1"/>
-      <polygon points="170,4 176,10 170,16 164,10" fill="rgba(255,255,255,.8)"/>
-      <line x1="192" y1="10" x2="340" y2="10" stroke="url(#dg)" stroke-width="1"/>
-    </svg>
-  </div>
-
-  <!-- Info Cards -->
   <div class="cards">
     <div class="card">
+      <span class="card-line-num">01</span>
       <div class="card-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="3"/>
           <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
           <line x1="3" y1="10" x2="21" y2="10"/>
-          <rect x="8" y="14" width="3" height="3" rx=".5" fill="#ffffff" stroke="none"/>
+          <rect x="8" y="14" width="3" height="3" rx=".5" fill="#58a6ff" stroke="none"/>
         </svg>
       </div>
-      <div class="card-text">
-        <div class="card-label">Fecha</div>
-        <div class="card-value">Sabado, 4 de Julio de 2026</div>
+      <div class="card-body">
+        <p class="card-key">date</p>
+        <p class="card-val"><span class="string">"Sabado, 4 de Julio de 2026"</span></p>
       </div>
     </div>
     <div class="card">
+      <span class="card-line-num">02</span>
       <div class="card-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-          <circle cx="12" cy="9" r="2.5" fill="#ffffff" stroke="none"/>
+          <circle cx="12" cy="9" r="2.5" fill="#58a6ff" stroke="none"/>
         </svg>
       </div>
-      <div class="card-text">
-        <div class="card-label">Lugar</div>
-        <div class="card-value">Hotel Molino de la Alborada<br>San Cristobal de las Casas</div>
+      <div class="card-body">
+        <p class="card-key">location</p>
+        <p class="card-val"><span class="string">"Hotel Molino de la Alborada"</span><br><span style="font-size:.75rem;color:var(--muted);font-family:var(--mono);">San Cristobal de las Casas, Chis.</span></p>
       </div>
     </div>
     <div class="card">
+      <span class="card-line-num">03</span>
       <div class="card-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 10v6a4 4 0 01-4 4H6a4 4 0 01-4-4v-6"/>
-          <path d="M12 2v14M12 2l-4 5M12 2l4 5"/>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
         </svg>
       </div>
-      <div class="card-text">
-        <div class="card-label">Carrera</div>
-        <div class="card-value">Ingenieria en Software</div>
+      <div class="card-body">
+        <p class="card-key">dress_code</p>
+        <p class="card-val"><span class="string">"Viste con estilo — es una sesion de fotos"</span></p>
       </div>
     </div>
   </div>
 
   <!-- Countdown -->
   <div class="countdown-section">
-    <p class="countdown-label">Faltan exactamente</p>
+    <div class="countdown-header">
+      <span class="dot"></span>
+      <span>time_remaining.calculate()</span>
+    </div>
     <div class="countdown-grid">
       <div class="cd-box"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">dias</div></div>
       <div class="cd-box"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">horas</div></div>
@@ -347,15 +425,44 @@
     </div>
   </div>
 
-  <p class="note">Tu presencia hara este momento aun mas especial.<br>Viste con estilo — es una sesion de fotos.</p>
+  <div class="note">
+    <span class="comment">// Tu presencia hace este momento</span><br>
+    <span class="comment">// aun mas especial.</span><br>
+    <span class="str">console.log(<span style="color:var(--orange)">"Te esperamos!"</span>);</span>
+  </div>
+
 </section>
 
 <footer>
-  2026 &middot; Ameth de Jesus Mendez Toledo &middot; Ingenieria en Software
+  <div class="footer-item">
+    <span class="footer-dot">◆</span>
+    <span>Ameth de Jesus Mendez Toledo</span>
+  </div>
+  <div class="footer-item">
+    <span>Ing. en Software</span>
+    <span class="footer-badge">2026</span>
+  </div>
+  <div class="footer-item">
+    <span class="footer-dot">◆</span>
+    <span>graduation_session.exe</span>
+  </div>
 </footer>
 
 <script>
-/* ── COUNTDOWN ── */
+/* — TYPEWRITER — */
+const fullName = "Ameth de Jesus Mendez Toledo";
+const el = document.getElementById('typed-name');
+let i = 0;
+function type() {
+  if (i <= fullName.length) {
+    el.textContent = '"' + fullName.slice(0, i) + '"';
+    i++;
+    setTimeout(type, i === 1 ? 600 : 55 + Math.random() * 35);
+  }
+}
+setTimeout(type, 900);
+
+/* — COUNTDOWN — */
 const target = new Date('2026-07-04T09:00:00');
 const ids = ['cd-d','cd-h','cd-m','cd-s'];
 let prev = ['','','',''];
@@ -370,41 +477,40 @@ function tick(){
     pad(Math.floor((diff%60000)/1000))
   ];
   vals.forEach((v,i)=>{
-    const el=document.getElementById(ids[i]);
-    if(v!==prev[i]){ el.textContent=v; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); prev[i]=v; }
+    const e=document.getElementById(ids[i]);
+    if(v!==prev[i]){ e.textContent=v; e.classList.remove('bump'); void e.offsetWidth; e.classList.add('bump'); prev[i]=v; }
   });
 }
 tick(); setInterval(tick,1000);
 
-/* ── CONFETTI ── */
+/* — CONFETTI — */
 const canvas = document.getElementById('confetti-canvas');
 const ctx = canvas.getContext('2d');
-let particles = [], animId = null;
+let particles=[], animId=null;
 function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
 resize(); window.addEventListener('resize',resize);
-const COLORS=['#ffffff','rgba(255,255,255,.7)','#AAD4F0','#1A3A52','#4A88B5','rgba(255,255,255,.5)'];
-function mkParticle(x,y){
-  return{ x,y,vx:(Math.random()-.5)*11,vy:-(Math.random()*13+4),
+const COLORS=['#58a6ff','#3fb950','#bc8cff','#ffa657','rgba(88,166,255,.6)','rgba(63,185,80,.7)','#e6edf3'];
+function mkP(x,y){
+  return{ x,y,vx:(Math.random()-.5)*12,vy:-(Math.random()*14+5),
     color:COLORS[Math.floor(Math.random()*COLORS.length)],
-    size:Math.random()*9+4,shape:Math.random()>.5?'rect':'circle',
-    rot:Math.random()*360,rotV:(Math.random()-.5)*14,alpha:1,g:.36 };
+    size:Math.random()*8+3,shape:Math.random()>.4?'rect':'circle',
+    rot:Math.random()*360,rotV:(Math.random()-.5)*15,alpha:1,g:.35 };
 }
 function burst(){
   if(animId) cancelAnimationFrame(animId);
   particles=[];
-  const cx=window.innerWidth/2, cy=window.innerHeight*.72;
-  for(let i=0;i<200;i++) particles.push(mkParticle(cx,cy));
+  const cx=window.innerWidth/2, cy=window.innerHeight*.6;
+  for(let k=0;k<180;k++) particles.push(mkP(cx,cy));
   draw();
 }
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   for(const p of particles){
-    p.x+=p.vx; p.y+=p.vy; p.vy+=p.g; p.rot+=p.rotV; p.alpha-=.012;
+    p.x+=p.vx; p.y+=p.vy; p.vy+=p.g; p.rot+=p.rotV; p.alpha-=.013;
     if(p.alpha<=0) continue;
     ctx.save();
     ctx.globalAlpha=Math.max(0,p.alpha);
-    ctx.translate(p.x,p.y);
-    ctx.rotate(p.rot*Math.PI/180);
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
     ctx.fillStyle=p.color;
     if(p.shape==='circle'){ ctx.beginPath(); ctx.arc(0,0,p.size/2,0,Math.PI*2); ctx.fill(); }
     else { ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2); }
@@ -414,7 +520,7 @@ function draw(){
   if(particles.length) animId=requestAnimationFrame(draw);
   else ctx.clearRect(0,0,canvas.width,canvas.height);
 }
-window.addEventListener('load',()=>setTimeout(burst,700));
+window.addEventListener('load',()=>setTimeout(burst,800));
 </script>
 </body>
 </html>
